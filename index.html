@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú de Arepas Interactivo</title>
+    <!-- Enlace a los estilos -->
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -14,58 +15,76 @@
     </header>
 
     <main class="menu-grid">
-        <!-- AREPA CON QUESO -->
+        <!-- Tarjeta de Producto 1 -->
         <div class="tarjeta-producto">
-            <img src="img/arepa-queso.jpg" alt="Arepa con Queso" onerror="this.src='https://unsplash.com'">
+            <img src="img/1.jpg" alt="Arepa de Prueba">
             <h3>Arepa con Queso</h3>
             <p class="precio">$4.500</p>
             
+            <!-- Cuadro de selección de extras -->
             <div class="extras">
                 <label>
-                    <input type="checkbox" class="extra-item" value="Queso Extra" data-precio="1000"> + Queso Extra (+$1.000)
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="Queso Extra"> 
+                    + Queso Extra (+$1.000)
                 </label>
                 <label>
-                    <input type="checkbox" class="extra-item" value="Aguacate" data-precio="1500"> + Aguacate (+$1.500)
+                    <input type="checkbox" class="extra-item" data-precio="1500" value="Aguacate"> 
+                    + Aguacate (+$1.500)
                 </label>
             </div>
             
+
             <button class="btn-anadir" onclick="anadirAlCarrito('Arepa con Queso', 4500, this)">Añadir al Pedido</button>
         </div>
 
-        <!-- AREPA CON POLLO -->
+        <!-- Tarjeta de Producto 2 (Usa tu misma foto de prueba) -->
         <div class="tarjeta-producto">
-            <img src="img/arepa-pollo.jpg" alt="Arepa con Pollo" onerror="this.src='https://unsplash.com'">
+            <img src="img/1.jpg" alt="Arepa de Prueba">
             <h3>Arepa con Pollo</h3>
             <p class="precio">$5.000</p>
             
             <div class="extras">
                 <label>
-                    <input type="checkbox" class="extra-item" value="Queso Extra" data-precio="1000"> + Queso Extra (+$1.000)
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="Queso Extra"> 
+                    + Queso Extra (+$1.000)
                 </label>
-                <label>
-                    <input type="checkbox" class="extra-item" value="Chile" data-precio="15000"> + Chile (+$15.000)
+                 <label>
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="Quesochile"> 
+                    + chile (+$15.000)
                 </label>
+                 <label>
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="pupis"> 
+                    + pupis (+$10.000)
+                </label>
+                <div class="extras">
                 <label>
-                    <input type="checkbox" class="extra-item" value="Pupis" data-precio="10000"> + Pupis (+$10.000)
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="Queso Extra"> 
+                    + Queso Extra (+$1.000)
+                </label>
+                 <label>
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="Quesochile"> 
+                    + chile (+$15.000)
+                </label>
+                 <label>
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="pupis"> 
+                    + pupis (+$10.000)
                 </label>
             </div>
-            
+            </div>
+
             <button class="btn-anadir" onclick="anadirAlCarrito('Arepa con Pollo', 5000, this)">Añadir al Pedido</button>
+        
         </div>
     </main>
 
-    <!-- CARRITO FLOTANTE -->
+    <!-- Barra del Carrito y Envío -->
     <div class="carrito-flotante">
-        <div class="info-carrito">
-            <h3>🛒 Mi Pedido (<span id="contador-items">0</span>)</h3>
-            <p>Total: <strong>$ <span id="total-precio">0</span></strong></p>
-            
-            <!-- Botón manual para capturar el GPS sin parpadeos -->
-            <button id="btn-gps" class="btn-gps" onclick="obtenerUbicacion()">📍 Vincular mi GPS</button>
-        </div>
+        <h3>🛒 Mi Pedido (<span id="contador-items">0</span>)</h3>
+        <p>Total: <strong>$<span id="total-precio">0</span></strong></p>
         <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
     </div>
 
+    <!-- Enlace a la lógica de JavaScript -->
     <script src="js/carrito.js"></script>
 </body>
 </html>
