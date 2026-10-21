@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú de Arepas Interactivo</title>
-    <!-- Corregido para que apunte exactamente a tu archivo estilos.css -->
-    <link rel="stylesheet" href="estilos.css">
+    <!-- Conexión corregida hacia tu carpeta css -->
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
 
@@ -17,7 +17,8 @@
     <main class="menu-grid">
         <!-- AREPA CON QUESO -->
         <div class="tarjeta-producto">
-            <img src="https://unsplash.com" alt="Arepa con Queso">
+            <!-- Imagen apuntando a tu carpeta img -->
+            <img src="img/arepa-queso.jpg" alt="Arepa con Queso" onerror="this.src='https://unsplash.com'">
             <h3>Arepa con Queso</h3>
             <p class="precio">$4.500</p>
             
@@ -35,7 +36,8 @@
 
         <!-- AREPA CON POLLO -->
         <div class="tarjeta-producto">
-            <img src="https://unsplash.com" alt="Arepa con Pollo">
+            <!-- Imagen apuntando a tu carpeta img -->
+            <img src="img/arepa-pollo.jpg" alt="Arepa con Pollo" onerror="this.src='https://unsplash.com'">
             <h3>Arepa con Pollo</h3>
             <p class="precio">$5.000</p>
             
@@ -64,7 +66,7 @@
         <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
     </div>
 
-    <!-- Asegúrate de que tu archivo JS en Vercel se llame exactamente carrito.js -->
-    <script src="carrito.js"></script>
+    <!-- Conexión corregida hacia tu carpeta js -->
+    <script src="js/carrito.js"></script>
 </body>
 </html>
