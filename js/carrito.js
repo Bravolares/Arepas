@@ -1,87 +1,13 @@
-let carrito = [];
-let total = 0;
-let urlUbicacionGps = ""; 
-
-function obtenerUbicacion() {
-    const botonGps = document.getElementById('btn-gps');
-    if (!botonGps) return;
-
-    botonGps.innerText = "⌛ Buscando...";
-    botonGps.style.backgroundColor = "#7f8c8d";
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(posicion) {
-                let lat = posicion.coords.latitude;
-                let lon = posicion.coords.longitude;
-                urlUbicacionGps = "https://google.com" + lat + "," + lon;
-                
-                botonGps.innerText = "📍 GPS Vinculado ✓";
-                botonGps.style.backgroundColor = "#2ecc71";
-                botonGps.style.color = "white";
-                botonGps.disabled = true; // Evita doble clic
-            },
-            function(error) {
-                botonGps.innerText = "❌ Error al obtener GPS";
-                botonGps.style.backgroundColor = "#e74c3c";
-                botonGps.style.color = "white";
-                setTimeout(() => {
-                    botonGps.innerText = "📍 Vincular mi GPS";
-                    botonGps.style.backgroundColor = "#34495e";
-                }, 3000);
-            },
-            { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
-        );
-    } else {
-        botonGps.innerText = "❌ No compatible";
-        botonGps.style.backgroundColor = "#e74c3c";
-    }
-}
-
-function anadirAlCarrito(nombreProducto, precioBase, boton) {
-    const tarjeta = boton.closest('.tarjeta-producto');
-    const checkboxes = tarjeta.querySelectorAll('.extra-item:checked');
-    
-    let precioTotalProducto = precioBase;
-    let extrasSeleccionados = [];
-
-    checkboxes.forEach(cb => {
-        precioTotalProducto += parseInt(cb.getAttribute('data-precio'));
-        extrasSeleccionados.push(cb.value);
-    });
-
-    carrito.push({
-        nombre: nombreProducto,
-        precio: precioTotalProducto,
-        extras: extrasSeleccionados
-    });
-
-    total += precioTotalProducto;
-    document.getElementById('total-precio').innerText = total.toLocaleString('es-CO');
-    document.getElementById('contador-items').innerText = carrito.length;
-
-    tarjeta.querySelectorAll('.extra-item').forEach(cb => cb.checked = false);
-    
-    const textoOriginal = boton.innerText;
-    boton.innerText = "¡Añadido! ✓";
-    boton.style.backgroundColor = "#2ecc71"; 
-    boton.style.color = "white";
-
-    setTimeout(() => {
-        boton.innerText = textoOriginal;
-        boton.style.backgroundColor = "#f39c12"; 
-        boton.style.color = "black";
-    }, 1000);
-}
-
 function enviarPedido() {
     if (carrito.length === 0) {
         alert("Tu carrito está vacío. Añade algunas arepas primero.");
         return;
     }
 
+    // Tu número de Colombia configurado de manera estricta y limpia
     var numeroTelefono = "573219163532"; 
 
+    // Construir el texto base de la comanda
     var textoComanda = "=========================\n";
     textoComanda += "   NUEVO PEDIDO DE AREPAS\n";
     textoComanda += "=========================\n\n";
@@ -94,14 +20,43 @@ function enviarPedido() {
         textoComanda += "-------------------------\n";
     });
 
-    textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n\n";
+    textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n";
 
-    if (urlUbicacionGps !== "") {
-        textoComanda += "📍 Ubicación de entrega (Google Maps):\n" + urlUbicacionGps;
+    // Intentar obtener la ubicación GPS antes de enviar
+    if (navigator.geolocation) {
+        // Opción de configuración para alta precisión en móviles
+        const opcionesGps = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        navigator.geolocation.getCurrentPosition(
+            function(posicion) {
+                // ÉXITO: El usuario aceptó el GPS
+                var latitud = posicion.coords.latitude;
+                var longitud = posicion.coords.longitude;
+                
+                textoComanda += "📍 Ubicación de entrega (Google Maps):\n";
+                textoComanda += "https://google.com" + latitud + "," + longitud;
+
+                // Enviar con el enlace integrado
+                var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+                window.open(urlWhatsApp, '_blank');
+            },
+            function(error) {
+                // ERROR O RECHAZO: El usuario no aceptó o falló el GPS
+                textoComanda += "📍 Ubicación: No proporcionada por el cliente.";
+                
+                var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+                window.open(urlWhatsApp, '_blank');
+            },
+            opcionesGps
+        );
     } else {
-        textoComanda += "📍 Ubicación: No vinculada (Solicitar dirección escrita al cliente).";
+        // El navegador no es compatible con GPS (casos muy raros hoy en día)
+        textoComanda += "📍 Ubicación: Navegador no compatible con GPS.";
+        var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+        window.open(urlWhatsApp, '_blank');
     }
-
-    var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
-    window.open(urlWhatsApp, '_blank');
 }
