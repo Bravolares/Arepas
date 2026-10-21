@@ -1,3 +1,48 @@
+let carrito = [];
+let total = 0;
+
+function anadirAlCarrito(nombreProducto, precioBase, boton) {
+    // Buscar los checkboxes de extras dentro de la tarjeta de este botón
+    const tarjeta = boton.closest('.tarjeta-producto');
+    const checkboxes = tarjeta.querySelectorAll('.extra-item:checked');
+    
+    let precioTotalProducto = precioBase;
+    let extrasSeleccionados = [];
+
+    // Sumar el valor de los cuadros de selección marcados
+    checkboxes.forEach(cb => {
+        precioTotalProducto += parseInt(cb.getAttribute('data-precio'));
+        extrasSeleccionados.push(cb.value);
+    });
+
+    // Guardar en el carrito
+    carrito.push({
+        nombre: nombreProducto,
+        precio: precioTotalProducto,
+        extras: extrasSeleccionados
+    });
+
+    // Actualizar los totales de la pantalla automáticamente
+    total += precioTotalProducto;
+    document.getElementById('total-precio').innerText = total.toLocaleString('es-CO');
+    document.getElementById('contador-items').innerText = carrito.length;
+
+    // Desmarcar los cuadros para el siguiente pedido
+    tarjeta.querySelectorAll('.extra-item').forEach(cb => cb.checked = false);
+    
+    // EFECTO VISUAL FLUIDO: El botón cambia de color y texto por un segundo
+    const textoOriginal = boton.innerText;
+    boton.innerText = "¡Añadido! ✓";
+    boton.style.backgroundColor = "#2ecc71"; // Cambia a verde
+    boton.style.color = "white";
+
+    setTimeout(() => {
+        boton.innerText = textoOriginal;
+        boton.style.backgroundColor = "#f39c12"; // Vuelve a tu amarillo/naranja
+        boton.style.color = "black";
+    }, 1000);
+}
+
 function enviarPedido() {
     if (carrito.length === 0) {
         alert("Tu carrito está vacío. Añade algunas arepas primero.");
@@ -20,32 +65,30 @@ function enviarPedido() {
         textoComanda += "-------------------------\n";
     });
 
-    textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n";
+    textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n\n";
 
     // Intentar obtener la ubicación GPS antes de enviar
     if (navigator.geolocation) {
-        // Opción de configuración para alta precisión en móviles
         const opcionesGps = {
-            enableHighAccuracy: true,
+            enableHighAccuracy: true, // Solicita alta precisión del GPS en móviles
             timeout: 5000,
             maximumAge: 0
         };
 
         navigator.geolocation.getCurrentPosition(
             function(posicion) {
-                // ÉXITO: El usuario aceptó el GPS
+                // El usuario aceptó compartir su GPS
                 var latitud = posicion.coords.latitude;
                 var longitud = posicion.coords.longitude;
                 
                 textoComanda += "📍 Ubicación de entrega (Google Maps):\n";
                 textoComanda += "https://google.com" + latitud + "," + longitud;
 
-                // Enviar con el enlace integrado
                 var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
                 window.open(urlWhatsApp, '_blank');
             },
             function(error) {
-                // ERROR O RECHAZO: El usuario no aceptó o falló el GPS
+                // El usuario rechazó el permiso o hubo un fallo en el GPS
                 textoComanda += "📍 Ubicación: No proporcionada por el cliente.";
                 
                 var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
@@ -54,7 +97,7 @@ function enviarPedido() {
             opcionesGps
         );
     } else {
-        // El navegador no es compatible con GPS (casos muy raros hoy en día)
+        // Navegador antiguo o no compatible con la API de ubicación
         textoComanda += "📍 Ubicación: Navegador no compatible con GPS.";
         var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
         window.open(urlWhatsApp, '_blank');
