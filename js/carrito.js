@@ -68,7 +68,7 @@ function enviarPedido() {
     textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO');
 
     // ENLACE CORREGIDO Y SEGURO: Concatenado de forma directa sin llaves problemáticas
-    const urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+   const urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
     
     // Abrir WhatsApp automáticamente en una pestaña nueva
     window.open(urlWhatsApp, '_blank');
