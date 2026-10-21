@@ -68,7 +68,7 @@ function enviarPedido() {
     textoComanda += `\nTOTAL A PAGAR: $${total.toLocaleString('es-CO')}`;
 
     // URL corregida agregando la barra '/' antes de la variable del número
-    const urlWhatsApp = `https://wa.me{numeroTelefono}?text=${encodeURIComponent(textoComanda)}`;
+    const urlWhatsApp = `https://wa.me{+573219163532}?text=${encodeURIComponent(textoComanda)}`;
     
     // Abrir WhatsApp automáticamente en una pestaña nueva
     window.open(urlWhatsApp, '_blank');
