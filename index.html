@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú de Arepas Interactivo</title>
-    <!-- Enlace corregido a tu carpeta css -->
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -17,7 +16,6 @@
     <main class="menu-grid">
         <!-- AREPA CON QUESO -->
         <div class="tarjeta-producto">
-            <!-- Carga la imagen desde tu carpeta img. Si no existe, usa un respaldo de internet -->
             <img src="img/arepa-queso.jpg" alt="Arepa con Queso" onerror="this.src='https://unsplash.com'">
             <h3>Arepa con Queso</h3>
             <p class="precio">$4.500</p>
@@ -36,7 +34,6 @@
 
         <!-- AREPA CON POLLO -->
         <div class="tarjeta-producto">
-            <!-- Carga la imagen desde tu carpeta img. Si no existe, usa un respaldo de internet -->
             <img src="img/arepa-pollo.jpg" alt="Arepa con Pollo" onerror="this.src='https://unsplash.com'">
             <h3>Arepa con Pollo</h3>
             <p class="precio">$5.000</p>
@@ -59,14 +56,16 @@
 
     <!-- CARRITO FLOTANTE -->
     <div class="carrito-flotante">
-        <div>
+        <div class="info-carrito">
             <h3>🛒 Mi Pedido (<span id="contador-items">0</span>)</h3>
             <p>Total: <strong>$ <span id="total-precio">0</span></strong></p>
+            <!-- Alerta visual de estado de ubicación GPS -->
+            <span id="estado-gps" class="estado-gps">📍 Solicitando GPS...</span>
         </div>
         <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
     </div>
 
-    <!-- Enlace corregido a tu carpeta js -->
     <script src="js/carrito.js"></script>
 </body>
 </html>
+
