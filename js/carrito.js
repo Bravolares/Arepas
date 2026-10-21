@@ -1,13 +1,14 @@
 let carrito = [];
 let total = 0;
-let urlUbicacionGps = ""; // Almacena la ubicación de fondo
+let urlUbicacionGps = ""; 
 
-// Solicitar GPS de forma segura al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
-    obtenerUbicacionSilenciosa();
-});
+function obtenerUbicacion() {
+    const botonGps = document.getElementById('btn-gps');
+    if (!botonGps) return;
 
-function obtenerUbicacionSilenciosa() {
+    botonGps.innerText = "⌛ Buscando...";
+    botonGps.style.backgroundColor = "#7f8c8d";
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function(posicion) {
@@ -15,21 +16,25 @@ function obtenerUbicacionSilenciosa() {
                 let lon = posicion.coords.longitude;
                 urlUbicacionGps = "https://google.com" + lat + "," + lon;
                 
-                let indicador = document.getElementById('estado-gps');
-                if(indicador) {
-                    indicador.innerText = "📍 GPS Vinculado ✓";
-                    indicador.style.color = "#2ecc71";
-                }
+                botonGps.innerText = "📍 GPS Vinculado ✓";
+                botonGps.style.backgroundColor = "#2ecc71";
+                botonGps.style.color = "white";
+                botonGps.disabled = true; // Evita doble clic
             },
             function(error) {
-                let indicador = document.getElementById('estado-gps');
-                if(indicador) {
-                    indicador.innerText = "📍 Dirección manual requerida";
-                    indicador.style.color = "#e74c3c";
-                }
+                botonGps.innerText = "❌ Error al obtener GPS";
+                botonGps.style.backgroundColor = "#e74c3c";
+                botonGps.style.color = "white";
+                setTimeout(() => {
+                    botonGps.innerText = "📍 Vincular mi GPS";
+                    botonGps.style.backgroundColor = "#34495e";
+                }, 3000);
             },
-            { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+            { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
         );
+    } else {
+        botonGps.innerText = "❌ No compatible";
+        botonGps.style.backgroundColor = "#e74c3c";
     }
 }
 
@@ -91,14 +96,12 @@ function enviarPedido() {
 
     textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n\n";
 
-    // Adjuntar la ubicación si fue capturada previamente
     if (urlUbicacionGps !== "") {
         textoComanda += "📍 Ubicación de entrega (Google Maps):\n" + urlUbicacionGps;
     } else {
-        textoComanda += "📍 Ubicación: No compartida (Solicitar dirección de entrega texto).";
+        textoComanda += "📍 Ubicación: No vinculada (Solicitar dirección escrita al cliente).";
     }
 
-    // Al ejecutarse directo en la acción del click, el navegador ya NO lo bloquea
     var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
     window.open(urlWhatsApp, '_blank');
 }
