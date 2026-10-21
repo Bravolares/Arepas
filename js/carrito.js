@@ -49,7 +49,7 @@ function enviarPedido() {
         return;
     }
 
-    // Tu número de WhatsApp comercial real (sin signos +, sin llaves, sin espacios)
+    // Tu número de WhatsApp de Colombia (57 + tu número, sin signos ni llaves)
     const numeroTelefono = "573219163532"; 
 
     // Construir el texto de la comanda
@@ -58,17 +58,17 @@ function enviarPedido() {
     textoComanda += "=========================\n\n";
 
     carrito.forEach((item, index) => {
-        textoComanda += `${index + 1}. ${item.nombre} ($${item.precio.toLocaleString('es-CO')})\n`;
+        textoComanda += (index + 1) + ". " + item.nombre + " ($" + item.precio.toLocaleString('es-CO') + ")\n";
         if (item.extras.length > 0) {
-            textoComanda += `   Extras: ${item.extras.join(', ')}\n`;
+            textoComanda += "   Extras: " + item.extras.join(', ') + "\n";
         }
         textoComanda += "-------------------------\n";
     });
 
-    textoComanda += `\nTOTAL A PAGAR: $${total.toLocaleString('es-CO')}`;
+    textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO');
 
-    // URL PERFECTAMENTE CONFIGURADA: Con la barra "/" y el símbolo "\$" correctos para JavaScript
-    const urlWhatsApp = `https://wa.me{numeroTelefono}?text=${encodeURIComponent(textoComanda)}`;
+    // ENLACE CORREGIDO Y SEGURO: Concatenado de forma directa sin llaves problemáticas
+    const urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
     
     // Abrir WhatsApp automáticamente en una pestaña nueva
     window.open(urlWhatsApp, '_blank');
