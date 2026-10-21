@@ -31,22 +31,8 @@ function enviarPedido() {
             maximumAge: 0
         };
 
-        navigator.geolocation.getCurrentPosition(
-            function(posicion) {
-                // ÉXITO: El usuario aceptó el GPS
-                var latitud = posicion.coords.latitude;
-                var longitud = posicion.coords.longitude;
-                
-                textoComanda += "📍 Ubicación de entrega (Google Maps):\n";
-                textoComanda += "https://google.com" + latitud + "," + longitud;
-
-                // Enviar con el enlace integrado
-                var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
-                window.open(urlWhatsApp, '_blank');
-            },
-            function(error) {
-                // ERROR O RECHAZO: El usuario no aceptó o falló el GPS
-                textoComanda += "📍 Ubicación: No proporcionada por el cliente.";
+       
+            
                 
                 var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
                 window.open(urlWhatsApp, '_blank');
