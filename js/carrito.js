@@ -49,11 +49,11 @@ function enviarPedido() {
         return;
     }
 
-    // Tu número de WhatsApp de Colombia (57 + tu número, sin signos ni llaves)
-    const numeroTelefono = "573219163532"; 
+    // Tu número de Colombia configurado de manera estricta y limpia
+    var numeroTelefono = "573219163532"; 
 
     // Construir el texto de la comanda
-    let textoComanda = "=========================\n";
+    var textoComanda = "=========================\n";
     textoComanda += "   NUEVO PEDIDO DE AREPAS\n";
     textoComanda += "=========================\n\n";
 
@@ -67,9 +67,9 @@ function enviarPedido() {
 
     textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO');
 
-    // ENLACE CORREGIDO Y SEGURO: Concatenado de forma directa sin llaves problemáticas
-   const urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+    // ENLACE TOTALMENTE SEGURO: Sin llaves, sin comillas invertidas, construido por partes fijas
+    var urlWhatsApp = "https://wa.me/" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
     
-    // Abrir WhatsApp automáticamente en una pestaña nueva
+    // Abrir la aplicación de WhatsApp directamente
     window.open(urlWhatsApp, '_blank');
 }
