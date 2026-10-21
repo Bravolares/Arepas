@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Arepas Interactivo</title>
+    <!-- Enlace a los estilos -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <h1>AREPAS COLOMBIANAS</h1>
+        <p>Calientitas • Recién Hechas • Bien Rellenas</p>
+    </header>
+
+    <main class="menu-grid">
+        <!-- Tarjeta de Producto 1 -->
+        <div class="tarjeta-producto">
+            <img src="img/1.jpg" alt="Arepa de Prueba">
+            <h3>Arepa con Queso</h3>
+            <p class="precio">$4.500</p>
+            
+            <!-- Cuadro de selección de extras -->
+            <div class="extras">
+                <label>
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="Queso Extra"> 
+                    + Queso Extra (+$1.000)
+                </label>
+                <label>
+                    <input type="checkbox" class="extra-item" data-precio="1500" value="Aguacate"> 
+                    + Aguacate (+$1.500)
+                </label>
+            </div>
+
+            <button class="btn-anadir" onclick="anadirAlCarrito('Arepa con Queso', 4500, this)">Añadir al Pedido</button>
+        </div>
+
+        <!-- Tarjeta de Producto 2 (Usa tu misma foto de prueba) -->
+        <div class="tarjeta-producto">
+            <img src="img/1.jpg" alt="Arepa de Prueba">
+            <h3>Arepa con Pollo</h3>
+            <p class="precio">$5.000</p>
+            
+            <div class="extras">
+                <label>
+                    <input type="checkbox" class="extra-item" data-precio="1000" value="Queso Extra"> 
+                    + Queso Extra (+$1.000)
+                </label>
+            </div>
+
+            <button class="btn-anadir" onclick="anadirAlCarrito('Arepa con Pollo', 5000, this)">Añadir al Pedido</button>
+        </div>
+    </main>
+
+    <!-- Barra del Carrito y Envío -->
+    <div class="carrito-flotante">
+        <h3>🛒 Mi Pedido (<span id="contador-items">0</span>)</h3>
+        <p>Total: <strong>$<span id="total-precio">0</span></strong></p>
+        <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
+    </div>
+
+    <!-- Enlace a la lógica de JavaScript -->
+    <script src="js/carrito.js"></script>
+</body>
+</html>
