@@ -1,5 +1,37 @@
 let carrito = [];
 let total = 0;
+let urlUbicacionGps = ""; // Almacena la ubicación de fondo
+
+// Solicitar GPS de forma segura al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    obtenerUbicacionSilenciosa();
+});
+
+function obtenerUbicacionSilenciosa() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(posicion) {
+                let lat = posicion.coords.latitude;
+                let lon = posicion.coords.longitude;
+                urlUbicacionGps = "https://google.com" + lat + "," + lon;
+                
+                let indicador = document.getElementById('estado-gps');
+                if(indicador) {
+                    indicador.innerText = "📍 GPS Vinculado ✓";
+                    indicador.style.color = "#2ecc71";
+                }
+            },
+            function(error) {
+                let indicador = document.getElementById('estado-gps');
+                if(indicador) {
+                    indicador.innerText = "📍 Dirección manual requerida";
+                    indicador.style.color = "#e74c3c";
+                }
+            },
+            { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+        );
+    }
+}
 
 function anadirAlCarrito(nombreProducto, precioBase, boton) {
     const tarjeta = boton.closest('.tarjeta-producto');
@@ -59,36 +91,14 @@ function enviarPedido() {
 
     textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n\n";
 
-    // Solicitar ubicación GPS nativa del dispositivo
-    if (navigator.geolocation) {
-        const opcionesGps = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        };
-
-        navigator.geolocation.getCurrentPosition(
-            function(posicion) {
-                var latitud = posicion.coords.latitude;
-                var longitud = posicion.coords.longitude;
-                
-                textoComanda += "📍 Ubicación de entrega (Google Maps):\n";
-                textoComanda += "https://google.com" + latitud + "," + longitud;
-
-                var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
-                window.open(urlWhatsApp, '_blank');
-            },
-            function(error) {
-                textoComanda += "📍 Ubicación: No proporcionada por el cliente.";
-                
-                var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
-                window.open(urlWhatsApp, '_blank');
-            },
-            opcionesGps
-        );
+    // Adjuntar la ubicación si fue capturada previamente
+    if (urlUbicacionGps !== "") {
+        textoComanda += "📍 Ubicación de entrega (Google Maps):\n" + urlUbicacionGps;
     } else {
-        textoComanda += "📍 Ubicación: Navegador no compatible con GPS.";
-        var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
-        window.open(urlWhatsApp, '_blank');
+        textoComanda += "📍 Ubicación: No compartida (Solicitar dirección de entrega texto).";
     }
+
+    // Al ejecutarse directo en la acción del click, el navegador ya NO lo bloquea
+    var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+    window.open(urlWhatsApp, '_blank');
 }
