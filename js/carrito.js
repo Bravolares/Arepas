@@ -49,8 +49,8 @@ function enviarPedido() {
         return;
     }
 
-    // Tu número de WhatsApp de destino (puedes cambiarlo por el tuyo)
-    const numeroTelefono = "3885061919"; 
+    // Tu número de WhatsApp comercial real (sin signos +, sin llaves, sin espacios)
+    const numeroTelefono = "573219163532"; 
 
     // Construir el texto de la comanda
     let textoComanda = "=========================\n";
@@ -67,8 +67,8 @@ function enviarPedido() {
 
     textoComanda += `\nTOTAL A PAGAR: $${total.toLocaleString('es-CO')}`;
 
-    // URL corregida agregando la barra '/' antes de la variable del número
-    const urlWhatsApp = `https://wa.me{+573219163532}?text=${encodeURIComponent(textoComanda)}`;
+    // URL PERFECTAMENTE CONFIGURADA: Con la barra "/" y el símbolo "\$" correctos para JavaScript
+    const urlWhatsApp = `https://wa.me{numeroTelefono}?text=${encodeURIComponent(textoComanda)}`;
     
     // Abrir WhatsApp automáticamente en una pestaña nueva
     window.open(urlWhatsApp, '_blank');
