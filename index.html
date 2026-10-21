@@ -59,8 +59,9 @@
         <div class="info-carrito">
             <h3>🛒 Mi Pedido (<span id="contador-items">0</span>)</h3>
             <p>Total: <strong>$ <span id="total-precio">0</span></strong></p>
-            <!-- Alerta visual de estado de ubicación GPS -->
-            <span id="estado-gps" class="estado-gps">📍 Solicitando GPS...</span>
+            
+            <!-- Botón manual para capturar el GPS sin parpadeos -->
+            <button id="btn-gps" class="btn-gps" onclick="obtenerUbicacion()">📍 Vincular mi GPS</button>
         </div>
         <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
     </div>
@@ -68,4 +69,3 @@
     <script src="js/carrito.js"></script>
 </body>
 </html>
-
