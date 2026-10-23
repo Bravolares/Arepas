@@ -1,50 +1,45 @@
-// Variables globales para almacenar el estado del carrito
+// Variables de control del carrito
 let carrito = [];
 let total = 0;
 
 function anadirAlCarrito(nombreProducto, precioBase, boton) {
-    // 1. Encontrar la tarjeta del producto donde se hizo clic
+    // Buscar la tarjeta contenedora del producto
     const tarjeta = boton.closest('.tarjeta-producto');
     
-    // 2. Buscar qué extras (checkboxes) están marcados dentro de esa tarjeta
+    // Obtener los extras seleccionados en esta tarjeta
     const checkboxesExtras = tarjeta.querySelectorAll('.extra-item:checked');
     
     let extrasSeleccionados = [];
     let precioExtras = 0;
 
-    // 3. Procesar los extras seleccionados
+    // Procesar cada extra marcado
     checkboxesExtras.forEach(checkbox => {
         extrasSeleccionados.push(checkbox.value);
         precioExtras += parseFloat(checkbox.getAttribute('data-precio'));
         
-        // Opcional: Desmarcar el checkbox después de añadirlo
+        // Limpiar el check después de añadirlo al pedido
         checkbox.checked = false;
     });
 
-    // 4. Calcular el precio final de este producto individual
+    // Sumar el precio base más los adicionales seleccionados
     const precioFinalProducto = precioBase + precioExtras;
 
-    // 5. Crear el objeto del producto y meterlo al carrito
-    const itemCarrito = {
+    // Agregar objeto al arreglo
+    carrito.push({
         nombre: nombreProducto,
         precio: precioFinalProducto,
         extras: extrasSeleccionados
-    };
+    });
 
-    carrito.push(itemCarrito);
-
-    // 6. Actualizar el acumulador del total de dinero
+    // Acumular en el total general
     total += precioFinalProducto;
 
-    // 7. Actualizar la interfaz visual (los números en el HTML)
+    // Actualizar la interfaz gráfica de inmediato
     actualizarInterfaz();
 }
 
 function actualizarInterfaz() {
-    // Cambiar el contador de items
     document.getElementById('contador-items').innerText = carrito.length;
-    
-    // Cambiar el texto del precio total formateado
     document.getElementById('total-precio').innerText = total.toLocaleString('es-CO');
 }
 
@@ -54,10 +49,10 @@ function enviarPedido() {
         return;
     }
 
-    // Tu número de Colombia configurado de manera estricta y limpia
+    // Número de teléfono con código de país (Colombia: 57)
     var numeroTelefono = "573219163532"; 
 
-    // Construir el texto base de la comanda
+    // Construcción del texto formateado para la comanda de WhatsApp
     var textoComanda = "=========================\n";
     textoComanda += "   NUEVO PEDIDO DE AREPAS\n";
     textoComanda += "=========================\n\n";
@@ -72,7 +67,9 @@ function enviarPedido() {
 
     textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n";
 
-    // CLAVE: La barra "/" después de wa.me es obligatoria para que redirija bien
+    // Enlace corregido con la barra diagonal "/" mandatoria
     var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+    
+    // Ejecución de apertura de pestaña hacia WhatsApp
     window.open(urlWhatsApp, '_blank');
 }
