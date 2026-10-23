@@ -65,25 +65,10 @@
     <div class="carrito-flotante">
         <h3>🛒 Mi Pedido (<span id="contador-items">0</span>)</h3>
         <p>Total: <strong>$<span id="total-precio">0</span></strong></p>
-        <!-- Ejecución directa a prueba de fallos de caché -->
-        <button class="btn-enviar" onclick="
-            if (carrito.length === 0) {
-                alert('Tu carrito está vacío. Añade algunas arepas primero.');
-            } else {
-                var numeroTelefono = '573219163532';
-                var textoComanda = '=========================\n   NUEVO PEDIDO DE AREPAS\n=========================\n\n';
-                carrito.forEach((item, index) => {
-                    textoComanda += (index + 1) + '. ' + item.nombre + ' ($' + item.precio.toLocaleString('es-CO') + ')\n';
-                    if (item.extras.length > 0) { textoComanda += '   Extras: ' + item.extras.join(\', \') + '\n'; }
-                    textoComanda += '-------------------------\n';
-                });
-                textoComanda += '\nTOTAL A PAGAR: $' + total.toLocaleString('es-CO') + '\n';
-                window.open('https://wa.me' + numeroTelefono + '?text=' + encodeURIComponent(textoComanda), '_blank');
-            }
-        ">Enviar Pedido por WhatsApp</button>
+        <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
     </div>
 
-    <!-- Enlace a la lógica de JavaScript para la acumulación -->
+    <!-- Conexión al JavaScript externo -->
     <script src="js/carrito.js"></script>
 </body>
 </html>
