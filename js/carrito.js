@@ -72,7 +72,7 @@ function enviarPedido() {
 
     textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n";
 
-    // Enlace directo a WhatsApp sin bloques de GPS que arruinen el código
+    // CLAVE: La barra "/" después de wa.me es obligatoria para que redirija bien
     var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
     window.open(urlWhatsApp, '_blank');
 }
