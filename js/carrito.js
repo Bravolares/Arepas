@@ -22,27 +22,7 @@ function enviarPedido() {
 
     textoComanda += "\nTOTAL A PAGAR: $" + total.toLocaleString('es-CO') + "\n";
 
-    // Intentar obtener la ubicación GPS antes de enviar
-    if (navigator.geolocation) {
-        // Opción de configuración para alta precisión en móviles
-        const opcionesGps = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        };
-
-       
-            
-                
-                var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
-                window.open(urlWhatsApp, '_blank');
-            },
-            opcionesGps
-        );
-    } else {
-        // El navegador no es compatible con GPS (casos muy raros hoy en día)
-        textoComanda += "📍 Ubicación: Navegador no compatible con GPS.";
-        var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
-        window.open(urlWhatsApp, '_blank');
-    }
+    // Enlace directo a WhatsApp sin bloques de GPS que arruinen el código
+    var urlWhatsApp = "https://wa.me" + numeroTelefono + "?text=" + encodeURIComponent(textoComanda);
+    window.open(urlWhatsApp, '_blank');
 }
